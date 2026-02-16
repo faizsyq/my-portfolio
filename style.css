@@ -1,0 +1,614 @@
+/* ============================================================
+   Faiz Syauqi — Personal Landing Page
+   CINEMATIC WARM Design System (HTML + CSS only)
+   ============================================================ */
+
+/* ---------- Google Font ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+/* ---------- Custom Properties ---------- */
+:root {
+  /* Cinematic Palette */
+  --bg-void: #050505;
+  --bg-dark: #0f0f0f;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+
+  /* Warm Lighting */
+  --light-warm: #ff8c42;
+  /* Deep Orange */
+  --light-gold: #fcd34d;
+  /* Amber */
+  --accent-grad: linear-gradient(135deg, var(--light-warm), var(--light-gold));
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #a3a3a3;
+  --text-muted: #525252;
+
+  /* Glass & Borders */
+  --glass-surface: rgba(20, 20, 20, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: rgba(255, 140, 66, 0.15);
+
+  /* Animation */
+  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition: 0.6s var(--ease-cinematic);
+  --radius: 24px;
+}
+
+/* ---------- Reset / Base ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Cinematic Background - Spotlight Effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 80vh;
+  background: radial-gradient(circle, rgba(255, 140, 66, 0.12) 0%, transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+  animation: pulseLight 8s ease-in-out infinite alternate;
+}
+
+@keyframes pulseLight {
+  0% {
+    opacity: 0.8;
+    transform: translateX(-50%) scale(1);
+  }
+
+  100% {
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
+/* Links */
+a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ---------- Utility ---------- */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 120px 0;
+}
+
+.gradient-text {
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 40px rgba(255, 140, 66, 0.3);
+}
+
+.section-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+  background: linear-gradient(to bottom, #fff, #888);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin-bottom: 72px;
+  max-width: 500px;
+  border-left: 2px solid var(--light-warm);
+  padding-left: 20px;
+}
+
+/* ---------- Floating Dock Navigation ---------- */
+.header {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: auto;
+  max-width: 90%;
+}
+
+.header .container {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* The Glass Capsule */
+.header .container {
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 12px 24px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  display: inline-flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.header__logo {
+  display: none;
+  /* Hide logo in dock for cleaner look, or subtle icon */
+}
+
+/* If we want a mini logo */
+/*
+.header__logo {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+*/
+
+.header__title {
+  display: none;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav a {
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: #000;
+  background: #fff;
+}
+
+/* ---------- Hero Section ---------- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  position: relative;
+}
+
+.hero .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Left: Text */
+.hero__text-content {
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 5.5rem;
+  font-weight: 800;
+  line-height: 0.95;
+  margin-bottom: 32px;
+  letter-spacing: -0.04em;
+}
+
+.hero__tagline {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 480px;
+  margin-bottom: 48px;
+  line-height: 1.7;
+}
+
+.hero__cta {
+  display: flex;
+  gap: 20px;
+}
+
+.btn {
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn--primary {
+  background: #fff;
+  color: #000;
+  border: none;
+}
+
+.btn--primary:hover {
+  background: var(--light-warm);
+  box-shadow: 0 0 30px rgba(255, 140, 66, 0.4);
+}
+
+.btn--outline {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.btn--outline:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Right: Image */
+/* We'll reorder DOM in CSS for mobile if needed, but grid handles it */
+.hero__image-wrapper {
+  position: relative;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The "Tyrone Brooks" style image effect */
+.hero__avatar {
+  width: 100%;
+  height: 100%;
+  max-width: 450px;
+  max-height: 550px;
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+  /* Cinematic Glow behind image */
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  /* Reset */
+}
+
+/* Image background glow */
+.hero__image-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(255, 140, 66, 0.15) 0%, transparent 70%);
+  filter: blur(40px);
+  z-index: -1;
+}
+
+.hero__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(20%) contrast(1.1);
+  /* Adds that warm cinematic look */
+  transition: 1s ease;
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.hero__avatar:hover img {
+  transform: scale(1.05);
+  filter: sepia(0%) contrast(1.05);
+}
+
+/* ---------- Feature Cards ---------- */
+.summary-cards,
+.skills-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.summary-cards {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.0) 100%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 40px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-10px);
+}
+
+.card__icon {
+  font-size: 2rem;
+  margin-bottom: 24px;
+  color: var(--light-warm);
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.card p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* ---------- Projects ---------- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 32px;
+}
+
+.project-card {
+  border-radius: 32px;
+  background: #0a0a0a;
+  border: 1px solid var(--glass-border);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.project-card:hover {
+  transform: scale(0.98);
+  border-color: var(--light-warm);
+}
+
+.project-card__image {
+  height: 280px;
+  background: #111;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: var(--transition);
+}
+
+.project-card:hover .project-card__image img {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.project-card__body {
+  padding: 32px;
+}
+
+.project-card__body h3 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  padding-bottom: 150px;
+  /* Space for floating dock */
+  border-top: 1px solid var(--glass-border);
+  background: #000;
+  text-align: center;
+  padding-top: 80px;
+}
+
+.footer__socials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.footer__socials a {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1.25rem;
+  display: flex;
+  /* Flex is crucial here */
+  align-items: center;
+  /* Center vertically */
+  justify-content: center;
+  /* Center horizontally */
+  transition: var(--transition);
+}
+
+.footer__socials a:hover {
+  background: #fff;
+  color: #000;
+  transform: scale(1.1);
+}
+
+.footer__socials svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+/* ---------- Biography Page ---------- */
+.bio-intro {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.bio-intro__photo {
+  max-width: 300px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--glass-border);
+}
+
+.bio-intro__photo img {
+  width: 100%;
+  display: block;
+  filter: sepia(10%) contrast(1.1);
+}
+
+.bio-intro__text h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+}
+
+.bio-intro__text p {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  font-size: 1.1rem;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 40px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 48px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -46px;
+  /* -40px padding + -6px for center alignment of 12px dot */
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  background: var(--bg-void);
+  border: 2px solid var(--light-warm);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 140, 66, 0.4);
+}
+
+.timeline-item .date {
+  font-size: 0.85rem;
+  color: var(--light-warm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.timeline-item h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.timeline-item p {
+  color: var(--text-secondary);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .hero .container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero__image-wrapper {
+    height: 400px;
+    grid-row: 1;
+  }
+
+  .hero__text-content {
+    grid-row: 2;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+  }
+
+  .hero__tagline {
+    margin: 0 auto 40px;
+  }
+
+  .hero__cta {
+    justify-content: center;
+  }
+
+  .header {
+    bottom: 20px;
+    width: 90%;
+  }
+
+  .nav a {
+    padding: 10px 16px;
+    font-size: 0.8rem;
+  }
+}
