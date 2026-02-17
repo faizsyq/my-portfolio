@@ -122,7 +122,7 @@ img { max-width: 100%; display: block; }
   padding-left: 20px;
 }
 
-/* ---------- Floating Dock Navigation ---------- */
+/* ---------- Floating Dock Navigation — Glassmorphism ---------- */
 .header {
   position: fixed;
   bottom: 40px;
@@ -140,37 +140,49 @@ img { max-width: 100%; display: block; }
 }
 
 .header .container {
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  padding: 8px 10px;
   border-radius: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.2) inset;
   display: inline-flex;
   align-items: center;
-  gap: 32px;
+  gap: 4px;
 }
 
 .header__logo  { display: none; }
 .header__title { display: none; }
 
-.nav { display: flex; gap: 8px; }
+.nav { display: flex; gap: 4px; }
 
 .nav a {
   padding: 10px 24px;
   border-radius: 100px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   position: relative;
   white-space: nowrap;
+  transition: all 0.3s ease;
+  letter-spacing: 0.01em;
 }
 
-.nav a:hover,
+.nav a:hover {
+  color: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .nav a.active {
   color: #000;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.25),
+    0 1px 0 rgba(255, 255, 255, 0.5) inset;
 }
 
 /* ---------- Hero Section ---------- */
