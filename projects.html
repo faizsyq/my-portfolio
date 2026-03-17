@@ -30,15 +30,25 @@
     </header>
 
     <!-- ======== PROJECTS GRID ======== -->
-    <section class="section">
+    <section class="section" style="position: relative; overflow: hidden;">
+        <div class="floating-shapes" style="height: 600px;">
+            <div class="floating-shape floating-shape--1"></div>
+            <div class="floating-shape floating-shape--2"></div>
+            <div class="floating-shape floating-shape--3"></div>
+            <div class="floating-shape floating-shape--4"></div>
+            <div class="floating-shape floating-shape--5"></div>
+            <div class="floating-shape floating-shape--6"></div>
+            <div class="floating-shape floating-shape--7"></div>
+            <div class="floating-shape floating-shape--8"></div>
+        </div>
         <div class="container">
-            <h2 class="section-title">Latest Projects</h2>
-            <p class="section-subtitle">Here are some of the things I've been working on recently.</p>
+            <h2 class="section-title reveal">Latest Projects</h2>
+            <p class="section-subtitle reveal">Here are some of the things I've been working on recently.</p>
 
             <div class="projects-grid">
 
                 <!-- Project 1 — add more image filenames to data-images separated by commas -->
-                <div class="project-card"
+                <div class="project-card reveal reveal-delay-1"
                     data-title="FreshDash UI Design"
                     data-description="Designing FreshDash application UI including user registration & login, product browsing, shopping cart, checkout & payment, order tracking, user profile and AI recipe generator for ICT552 E-Commerce Technology group assignment."
                     data-tags="Canva, Design"
@@ -65,7 +75,7 @@
                 </div>
 
                 <!-- Project 2 -->
-                <div class="project-card"
+                <div class="project-card reveal reveal-delay-2"
                     data-title="DWASPA E-Commerce Web App"
                     data-description="Creating the full system of DWaspa (Spa & Wellness) application including front-end, back-end & database for CSC584 Enterprise Programming group assignment."
                     data-tags="Java EE, JSP, HTML, CSS"
@@ -94,7 +104,7 @@
                 </div>
 
                 <!-- Project 3 -->
-                <div class="project-card"
+                <div class="project-card reveal reveal-delay-3"
                     data-title="D'WanaConnect System"
                     data-description="Designing the UI of D'WanaConnect System for D'Wana Spa business for ISP640 Computing Project Management group assignment."
                     data-tags="Canva, Design"
@@ -121,7 +131,7 @@
                 </div>
 
                 <!-- Project 4 -->
-                <div class="project-card"
+                <div class="project-card reveal reveal-delay-4"
                     data-title="Limited Focus Application"
                     data-description="Designing the UI of Limited Focus application for ICT554 Introduction To IT Infrastructure group assignment & KL3IS 2025 (Kuala Lumpur International Invention & Innovation Symposium) — awarded a Silver Medal."
                     data-tags="Canva, Design"
@@ -293,6 +303,15 @@
             if (e.key === 'ArrowRight') nextImage();
             if (e.key === 'ArrowLeft')  prevImage();
         });
+    </script>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 
 </body>
