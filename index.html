@@ -30,11 +30,20 @@
     </div>
   </header>
 
-  <!-- ======== HERO ======== -->
   <section class="hero">
+    <div class="floating-shapes">
+      <div class="floating-shape floating-shape--1"></div>
+      <div class="floating-shape floating-shape--2"></div>
+      <div class="floating-shape floating-shape--3"></div>
+      <div class="floating-shape floating-shape--4"></div>
+      <div class="floating-shape floating-shape--5"></div>
+      <div class="floating-shape floating-shape--6"></div>
+      <div class="floating-shape floating-shape--7"></div>
+      <div class="floating-shape floating-shape--8"></div>
+    </div>
     <div class="container">
       <div class="hero__text-content">
-        <h1>Hi, I'm <span class="gradient-text">Faiz Syauqi</span></h1>
+        <h1>Hi, I'm <span class="gradient-text typewriter">Faiz Syauqi</span></h1>
         <p class="hero__tagline">An IT student with a passion for technology and a love for gaming. I build things for
           the
           web and enjoy exploring new tech.</p>
@@ -56,13 +65,13 @@
   <!-- ======== SUMMARY CARDS ======== -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title">At a Glance</h2>
-      <p class="section-subtitle">A quick snapshot of who I am and what I do.</p>
+      <h2 class="section-title reveal">At a Glance</h2>
+      <p class="section-subtitle reveal">A quick snapshot of who I am and what I do.</p>
 
       <div class="summary-cards">
 
         <!-- Card 1 -->
-        <div class="card">
+        <div class="card reveal reveal-delay-1">
           <div class="card__icon">🎓</div>
           <h3>IT Student</h3>
           <p>Currently pursuing a degree in Information Technology, learning everything from web development to system
@@ -70,14 +79,14 @@
         </div>
 
         <!-- Card 2 -->
-        <div class="card">
+        <div class="card reveal reveal-delay-2">
           <div class="card__icon">💻</div>
           <h3>Web Enthusiast</h3>
           <p>I enjoy building websites and experimenting with frontend technologies like HTML, CSS, and JavaScript.</p>
         </div>
 
         <!-- Card 3 -->
-        <div class="card">
+        <div class="card reveal reveal-delay-3">
           <div class="card__icon">🎮</div>
           <h3>Casual Gamer</h3>
           <p>When I'm not coding, you'll find me gaming. I enjoy a variety of genres from FPS to RPGs and everything in
@@ -124,6 +133,15 @@
       <p>&copy; 2026 <span>Faiz Syauqi</span>. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal, .timeline').forEach(el => observer.observe(el));
+  </script>
 
 </body>
 
