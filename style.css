@@ -1256,3 +1256,203 @@ img { max-width: 100%; display: block; }
   .hero::after { width: 200px; height: 200px; }
   .btn--primary::after { display: none; }
 }
+
+/* ============================================================
+   ANIMATE-UI UPGRADES
+   Paste these at the END of style.css
+============================================================ */
+
+/* ── 1. Cursor-Tracking Spotlight Cards ────────────────────
+   Uses --mouse-x / --mouse-y set by JS on each card.
+   The radial-gradient is relative to those coords.
+──────────────────────────────────────────────────────────── */
+.card,
+.skill-card,
+.project-card {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spotlight-opacity: 0;
+  --spotlight-size: 300px;
+}
+
+.card::after,
+.skill-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    var(--spotlight-size) circle at var(--mouse-x) var(--mouse-y),
+    rgba(255, 140, 66, 0.12),
+    transparent 70%
+  );
+  opacity: var(--spotlight-opacity);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Project cards get a slightly different spotlight */
+.project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    400px circle at var(--mouse-x) var(--mouse-y),
+    rgba(255, 140, 66, 0.08),
+    transparent 65%
+  );
+  opacity: var(--spotlight-opacity);
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* Ensure card children sit above the spotlight layer */
+.card > *,
+.skill-card > *,
+.project-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── 2. 3D Tilt Effect ─────────────────────────────────────
+   JS sets --rot-x / --rot-y. We just wire up the transform.
+──────────────────────────────────────────────────────────── */
+
+/* Wrapper for hero avatar perspective */
+.hero__image-wrapper {
+  perspective: 1000px;
+}
+
+.hero__avatar {
+  --rot-x: 0deg;
+  --rot-y: 0deg;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(var(--rot-x)) rotateY(var(--rot-y)) scale3d(1, 1, 1);
+  /* Override the old transition with a spring-like one */
+  transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.hero__avatar:hover {
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(255, 140, 66, 0.2);
+  /* Scale is handled in JS, but keep as fallback */
+}
+
+/* Project cards tilt container */
+.project-card {
+  --rot-x: 0deg;
+  --rot-y: 0deg;
+  transform-style: preserve-3d;
+  transform: perspective(800px) rotateX(var(--rot-x)) rotateY(var(--rot-y));
+  transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1),
+              border-color 0.4s ease,
+              box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+/* Override the old transform on hover — let JS handle it fully */
+.project-card:hover {
+  transform: perspective(800px) rotateX(var(--rot-x)) rotateY(var(--rot-y)) translateY(-8px) scale(1.01);
+}
+
+/* ── 3. Magnetic Floating Dock ─────────────────────────────
+   JS sets --tx / --ty via inline style. CSS handles easing.
+──────────────────────────────────────────────────────────── */
+.nav a {
+  /* Keep existing styles, add these */
+  display: inline-block;
+  transform: translate(var(--tx, 0px), var(--ty, 0px));
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              color 0.3s ease,
+              background 0.3s ease;
+  will-change: transform;
+}
+
+/* ── 4. Native View Transitions ────────────────────────────
+   Augments the cross-page navigation experience.
+──────────────────────────────────────────────────────────── */
+
+/* Default cross-fade for the whole page */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+}
+@keyframes fade-out {
+  to   { opacity: 0; transform: translateY(-12px); }
+}
+
+::view-transition-old(root) {
+  animation: 350ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 400ms cubic-bezier(0, 0, 0.2, 1) 80ms both fade-in;
+}
+
+/* Give the header its own transition name so it slides separately */
+.header {
+  view-transition-name: site-header;
+}
+
+@keyframes header-slide {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+}
+
+::view-transition-new(site-header) {
+  animation: 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both header-slide;
+}
+
+::view-transition-old(site-header) {
+  animation: 300ms ease both fade-out;
+}
+
+/* Hero content gets its own cinematic name */
+.hero__text-content {
+  view-transition-name: hero-text;
+}
+
+/* ── 5. Scroll-Driven Timeline ─────────────────────────────
+   JS sets --scroll-progress on .timeline.
+   We use scaleY() instead of the old timed transition.
+──────────────────────────────────────────────────────────── */
+
+/* Remove the old IntersectionObserver-based transition */
+.timeline::after {
+  transform-origin: top;
+  transform: scaleY(var(--scroll-progress, 0));
+  /* Replace the old "transition: transform 1.5s ..." with none —
+     now driven entirely by scroll position */
+  transition: none;
+}
+
+/* Remove the old .timeline.visible::after rule entirely
+   by resetting it here */
+.timeline.visible::after {
+  transform: scaleY(var(--scroll-progress, 0));
+}
+
+/* Reduce motion — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-old(site-header),
+  ::view-transition-new(site-header) {
+    animation: none;
+  }
+
+  .project-card,
+  .hero__avatar {
+    transition: none;
+    transform: none !important;
+  }
+
+  .nav a {
+    transform: none !important;
+    transition: color 0.3s ease, background 0.3s ease;
+  }
+}
